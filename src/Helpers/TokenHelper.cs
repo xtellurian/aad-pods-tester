@@ -26,7 +26,6 @@ namespace src
                 new KeyVaultClient(
                     new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
-            Console.WriteLine("Please enter the key vault name");
 
             var keyVaultName = "gotta add this";
 
@@ -45,10 +44,8 @@ namespace src
             }
         }
 
-        private static async Task<IEnumerable<ResourceGroup>> GetResourceGroups(AzureServiceTokenProvider azureServiceTokenProvider)
+        public static async Task<IEnumerable<ResourceGroup>> GetResourceGroups(AzureServiceTokenProvider azureServiceTokenProvider)
         {
-            Console.WriteLine($"{Environment.NewLine}{Environment.NewLine}Please enter the subscription Id");
-
             var subscriptionId = "c5760548-23c2-4223-b41e-5d68a8320a0c";
 
             try

@@ -5,3 +5,14 @@
 <h3>@ViewData["Message"]</h3>
 
 <p>Use this area to provide additional information.</p>
+
+<ul>
+@if (ViewData["ResourceGroups"] != null)
+    {
+        var rgList = (List<string>)ViewData["ResourceGroups"];
+        foreach (var i in rgList)
+        { 
+        <li>@i</li>
+        }        
+    }
+</ul>

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using src.Models;
 
 namespace src.Controllers
@@ -17,7 +18,9 @@ namespace src.Controllers
 
         public async Task<IActionResult> About()
         {
-            ViewData["Message"] = await TokenHelper.TestMethod();
+            var rgs = await TokenHelper.GetResourceGroups(new Microsoft.Azure.Services.AppAuthentication.AzureServiceTokenProvider());
+            ViewData["Message"] = "This should show you all your Resource Groups";
+            ViewData["ResourceGroups"] = rgs.Select(r => r.Name).ToList();
 
             return View();
         }
