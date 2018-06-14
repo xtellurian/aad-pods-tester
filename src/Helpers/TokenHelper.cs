@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace src
 {
 
-    public static class TokenHelper
+    public static class AzureServiceHelper
     {
         public static async Task<string> TestMethod()
         {

@@ -18,9 +18,11 @@ namespace src.Controllers
 
         public async Task<IActionResult> About()
         {
-            var rgs = await TokenHelper.GetResourceGroups(new Microsoft.Azure.Services.AppAuthentication.AzureServiceTokenProvider());
-            ViewData["Message"] = "This should show you all your Resource Groups";
-            ViewData["ResourceGroups"] = rgs.Select(r => r.Name).ToList();
+            //var rgs = await AzureServiceHelper.GetResourceGroups(new Microsoft.Azure.Services.AppAuthentication.AzureServiceTokenProvider());
+            var token = MsiHelper.GetToken();
+            ViewData["Message"] = token;
+            ViewData["HealthCheck"] = MsiHelper.HealthCheck();
+            ViewData["ResourceGroups"] = new List<string>{"None showing on purpose here"}; //rgs.Select(r => r.Name).ToList();
 
             return View();
         }

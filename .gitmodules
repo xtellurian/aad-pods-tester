@@ -1,0 +1,3 @@
+[submodule "msi/aad-pod-identity"]
+	path = msi/aad-pod-identity
+	url = https://github.com/Azure/aad-pod-identity.git
