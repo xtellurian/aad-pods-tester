@@ -2,10 +2,20 @@
     ViewData["Title"] = "About";
 }
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-HealthCheck:
-<h3>@ViewData["HealthCheck"]</h3>
+<h3>ARM Token:</h3>
+<p>@ViewData["ARMToken"]</p>
+
+<h3>Blob Token - this is error right now</h3>
+<p>@ViewData["BlobToken"]</p>
+
+<h3>Number of Cosmos Keys</h3>
+<p>@ViewData["NumKeys"]</p>
+
+<h3>All Containers in Blob</h3>
+<p>@ViewData["Containers"]</p>
+
+
 
 <p>Use this area to provide additional information.</p>
 
@@ -18,4 +28,9 @@ HealthCheck:
         <li>@i</li>
         }        
     }
+</ul>
+
+Change History
+<ul>
+    <li>added x-ms version</li>
 </ul>
