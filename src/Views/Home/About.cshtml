@@ -3,22 +3,15 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<h3>ARM Token:</h3>
-<p>@ViewData["ARMToken"]</p>
-
-<h3>Blob Token - this is error right now</h3>
-<p>@ViewData["BlobToken"]</p>
-
-<h3>Number of Cosmos Keys</h3>
-<p>@ViewData["NumKeys"]</p>
-
-<h3>All Containers in Blob</h3>
-<p>@ViewData["Containers"]</p>
+<h3>Token Statuses</h3>
+<p>ARM Token Status: @ViewData["ARMTokenStatus"]</p>
+<p>Blob Token Status: @ViewData["BlobTokenStatus"]</p>
 
 
-
-<p>Use this area to provide additional information.</p>
-
+<h3>Using the ARM Token</h3>
+<p>Use the ARM Token to get list of Resource Groups in Subsciption</p>
+<p>Subscription Id: @ViewData["SubscriptionId"]</p>
+<h4>Resource Groups:</h4>
 <ul>
 @if (ViewData["ResourceGroups"] != null)
     {
@@ -30,7 +23,34 @@
     }
 </ul>
 
+<h3>Use the ARM Token to get keys to a Cosmos DB account</h3>
+<p>Number of Cosmos Keys</p>
+<p>@ViewData["NumKeys"]</p>
+
+<h3>Blob Containers</h3>
+<p>Service Response:</p>
+<pre class="prettyprint lang-xml">
+    @ViewData["ContainersXML"]
+</pre>
+
+<br/>
+
+<p>Use this area to provide additional information.</p>
+
+
+<br/>
+
+<h3>Errors</h3>
+<h3>Exception:</h3>
+<p>@ViewData["Exception"]</p>
+
+<h3>Inner Exception</h3>
+<p>@ViewData["InnerException"]</p>
+
+<br/>
 Change History
 <ul>
     <li>added x-ms version</li>
+    <li>added Exception msg</li>
+    <li>Removed tokens from front end</li>
 </ul>

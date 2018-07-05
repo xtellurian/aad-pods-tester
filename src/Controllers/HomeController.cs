@@ -11,6 +11,10 @@ namespace src.Controllers
 {
     public class HomeController : Controller
     {
+        string cosmos_rg = Environment.GetEnvironmentVariable("COSMOS_RG");
+        string cosmos_name = Environment.GetEnvironmentVariable("COSMOS_NAME");
+        string subscription_id = Environment.GetEnvironmentVariable("SUBSCRIPTION_ID");
+        string storage_account = Environment.GetEnvironmentVariable("STORAGE_ACCOUNT");
         public IActionResult Index()
         {
             return View();
@@ -18,15 +22,43 @@ namespace src.Controllers
 
         public async Task<IActionResult> About()
         {
-            //var rgs = await AzureServiceHelper.GetResourceGroups(new Microsoft.Azure.Services.AppAuthentication.AzureServiceTokenProvider());
-            var ARMtoken = MsiHelper.GetToken("https://management.azure.com/");
-            ViewData["ARMToken"] = ARMtoken;
-            var storageToken = MsiHelper.GetToken("https://storage.azure.com/");
-            ViewData["BlobToken"] = storageToken;
-            var cosmosKey = CosmosHelper.GetKeys(ARMtoken,"e39a92b5-b9a4-43d1-97a3-c31c819a583a", "istiotest", "msitester-table" );
-            ViewData["NumKeys"] = cosmosKey?.Keys?.Count;
-            ViewData["Containers"] = AzureStorageHelper.GetAllContainerNames(storageToken);
-            ViewData["ResourceGroups"] = new List<string>{"None showing on purpose here"}; //rgs.Select(r => r.Name).ToList();
+            ViewData["SubscriptionId"] = subscription_id;
+            try
+            {
+                var ARMtoken = MsiHelper.GetToken("https://management.azure.com/");
+                ViewData["ARMTokenStatus"] = string.IsNullOrEmpty(ARMtoken) ? "Failed to get token for management.azure.com/" : "Got an ARM token for management.azure.com/";
+                
+                var storageToken = MsiHelper.GetToken("https://storage.azure.com/");
+                ViewData["BlobTokenStatus"] = string.IsNullOrEmpty(storageToken) ?  "Failed to get token for storage.azure.com/" : "Got an ARM token for storage.azure.com/";
+                
+                if (string.IsNullOrEmpty(ARMtoken))
+                {
+                    ViewData["NumKeys"] = "Get ARMtoken was unsuccessful, won't attempt to get COSMOS keys";
+                }
+                else
+                {
+                    // let's get this from input
+                    //var cosmosKey = CosmosHelper.GetKeys(ARMtoken, "e39a92b5-b9a4-43d1-97a3-c31c819a583a", "istiotest", "msitester-table");
+                    var cosmosKey = CosmosHelper.GetKeys(ARMtoken, subscription_id, cosmos_rg, cosmos_name);
+                    ViewData["NumKeys"] = cosmosKey?.Keys?.Count.ToString() ?? "Failed to get keys for " + cosmos_name + " in rg " + cosmos_rg;
+                }
+                if (string.IsNullOrEmpty(storageToken))
+                {
+                    ViewData["Containers"] = "Get StorageToken was unsuccessful";
+                }
+                else
+                {
+                    ViewData["ContainersXML"] = AzureStorageHelper.GetAllContainerNamesXml(storageToken, storage_account);
+                }
+                var rgs = await AzureServiceHelper.GetResourceGroups(ARMtoken, subscription_id);
+                ViewData["ResourceGroups"] = new List<string> (rgs.Select(r => r.Name).ToList());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                ViewData["Exception"] = ex?.Message;
+                ViewData["InnerException"] = ex?.InnerException?.Message;
+            }
 
             return View();
         }

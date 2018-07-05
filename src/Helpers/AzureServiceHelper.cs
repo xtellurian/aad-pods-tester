@@ -15,11 +15,6 @@ namespace src
 
     public static class AzureServiceHelper
     {
-        public static async Task<string> TestMethod()
-        {
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-            return JsonConvert.SerializeObject(await GetResourceGroups(azureServiceTokenProvider));
-        }
         private static async Task GetSecretFromKeyVault(AzureServiceTokenProvider azureServiceTokenProvider)
         {
             KeyVaultClient keyVaultClient =
@@ -44,23 +39,20 @@ namespace src
             }
         }
 
-        public static async Task<IEnumerable<ResourceGroup>> GetResourceGroups(AzureServiceTokenProvider azureServiceTokenProvider)
+        public static async Task<IEnumerable<ResourceGroup>> GetResourceGroups(string token, string subscriptionId)
         {
-            var subscriptionId = "c5760548-23c2-4223-b41e-5d68a8320a0c";
-
+            if(string.IsNullOrEmpty(token)){
+                throw new NullReferenceException("Null token in method GetResourceGroups()");
+            }
             try
             {
-                var serviceCreds = new TokenCredentials(await azureServiceTokenProvider.GetAccessTokenAsync("https://management.azure.com/").ConfigureAwait(false));
+                var serviceCreds = new TokenCredentials(token);
 
                 var resourceManagementClient =
                     new ResourceManagementClient(serviceCreds) { SubscriptionId = subscriptionId };
 
                 var resourceGroups = await resourceManagementClient.ResourceGroups.ListAsync();
-
-                foreach (var resourceGroup in resourceGroups)
-                {
-                    Console.WriteLine($"Resource group {resourceGroup.Name}");
-                }
+                
                 return resourceGroups;
 
             }
