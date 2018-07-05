@@ -20,14 +20,14 @@ namespace src.Controllers
             return View();
         }
 
-        public async Task<IActionResult> About()
+        public async Task<IActionResult> Demo()
         {
             ViewData["SubscriptionId"] = subscription_id;
             try
             {
                 var ARMtoken = MsiHelper.GetToken("https://management.azure.com/");
                 ViewData["ARMTokenStatus"] = string.IsNullOrEmpty(ARMtoken) ? "Failed to get token for management.azure.com/" : "Got an ARM token for management.azure.com/";
-                
+
                 var storageToken = MsiHelper.GetToken("https://storage.azure.com/");
                 ViewData["BlobTokenStatus"] = string.IsNullOrEmpty(storageToken) ?  "Failed to get token for storage.azure.com/" : "Got an ARM token for storage.azure.com/";
                 
