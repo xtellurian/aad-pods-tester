@@ -1,4 +1,4 @@
 #!/bin/sh
 
-az identity create --name rianid --resource-group MC_istiotest_jordosydneyaks_australiaeast
+az identity create --name testid --resource-group MC_k8s-test_fred_eastus
 

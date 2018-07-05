@@ -1,8 +1,8 @@
 apiVersion: "aadpodidentity.k8s.io/v1"
 kind: AzureIdentity
 metadata:
- name: rianid
+ name: testid
 spec:
  type: 0
- ResourceID: /subscriptions/e39a92b5-b9a4-43d1-97a3-c31c819a583a/resourcegroups/MC_istiotest_jordosydneyaks_australiaeast/providers/Microsoft.ManagedIdentity/userAssignedIdentities/rianid
- ClientID: 67404446-b013-4a8f-ba7f-6222575f9983
+ ResourceID: /subscriptions/c5760548-23c2-4223-b41e-5d68a8320a0c/resourcegroups/MC_k8s-test_fred_eastus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testid
+ ClientID: b0a7596f-866f-4ef4-9d62-2c08812db49e

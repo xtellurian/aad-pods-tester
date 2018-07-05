@@ -15,11 +15,19 @@ spec:
     spec:
       containers:
       - name: tester
-        image: "flanagan89/msi-tester:v5"
+        image: "flanagan89/msi-tester:release"
         ports:
           - containerPort: 80
         imagePullPolicy: Always
         env:
+        - name: SUBSCRIPTION_ID
+          value: c5760548-23c2-4223-b41e-5d68a8320a0c
+        - name: COSMOS_RG
+          value: none
+        - name: COSMOS_NAME
+          value: none
+        - name: STORAGE_ACCOUNT
+          value: mymsitest
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:
