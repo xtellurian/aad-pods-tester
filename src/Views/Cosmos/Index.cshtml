@@ -2,15 +2,15 @@
     ViewData["Title"] = "Cosmos DB";
 }
 
+<p>Useage: URL->  /Cosmos?rg=RESOURCE_GROUP_NAME&name=COSMOS_DB_NAME</p>
+
 <h3>Enable your MSI to access Cosmos DB Keys.</h3>
-<p>Give MSI <em>Cosmos DB Account Reader Role</em> in the Cosmos DB Resource Group</p>
-<p>NOTE: Permission must be granted on the Resource Group, and NOT on the Cosmos BD Account itself.</p>
-<p>NOTE2: Actually I have no idea where to grant the permission? </p>
+<p>Give MSI <em>Contributor</em> access to the Cosmos DB </p>
 
 
 <h3>Cosmos DB Resources (Using ARM Token):</h3>
 
-<h3>Data</h3>
+<h3>All Cosmos DB Accounts in Subscription</h3>
 <pre class="prettyprint lang-js">
     @ViewData["AllCosmosJson"]
 </pre>
@@ -28,8 +28,14 @@
 
 <br/>
 
-<h3>Use the ARM Token to get keys to a Cosmos DB account</h3>
+<h3>Cosmos: @ViewData["CosmosName"]</h3>
 <p>Number of Cosmos Keys</p>
 <p>@ViewData["NumKeys"]</p>
+
+<h4>Key Types</h4>
+<pre class="prettyprint lang-js">
+    @ViewData["KeyNamesJson"]
+</pre>
+
 
 

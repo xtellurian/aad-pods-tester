@@ -32,10 +32,10 @@ namespace src.Controllers
             {
                 cosmos_name = HttpContext.Request.Query["name"];
             }
-
-            var cosmosKey = await CosmosHelper.GetKeysAsync(ARMtoken, subscription_id, cosmos_rg, cosmos_name);
-            ViewData["NumKeys"] = cosmosKey?.Keys?.Count.ToString() ?? "Failed to get keys for " + cosmos_name + " in rg " + cosmos_rg;
-
+            ViewData["CosmosName"] = cosmos_name;
+            var cosmosKeys = await CosmosHelper.GetKeysAsync(ARMtoken, subscription_id, cosmos_rg, cosmos_name);
+            ViewData["NumKeys"] = cosmosKeys?.Keys?.Count.ToString() ?? "Failed to get keys for " + cosmos_name + " in rg " + cosmos_rg;
+            ViewData["KeyNamesJson"] = PrettyStringHelper.JsonPrettify(JsonConvert.SerializeObject(cosmosKeys.Keys));
             return View();
         }
         private async Task<IList<GenericResource>> GetAllCosmosDb(string token)
