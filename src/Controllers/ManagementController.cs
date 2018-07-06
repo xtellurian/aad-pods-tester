@@ -23,6 +23,7 @@ namespace src.Controllers
             {
                 var token = await GetToken("https://management.azure.com/");
                 ViewData["ARMTokenStatus"] = "Got a token!";
+                ViewData["DecodedToken"] = JwtHelper.DecodeToJson(token);
 
                 var rgs = await GetResourceGroups(token);
                 ViewData["ResourceGroups"] = new List<string>(rgs.Select(r => r.Name)); // must cast correctly

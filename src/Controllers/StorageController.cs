@@ -12,17 +12,18 @@ namespace src.Controllers
             ViewData["SubscriptionId"] = subscription_id;
             try
             {
-                var storageToken = await MsiHelper.GetToken("https://storage.azure.com/");
-                ViewData["BlobTokenStatus"] = string.IsNullOrEmpty(storageToken) ? "Failed to get token for storage.azure.com/" : "Got an ARM token for storage.azure.com/";
+                var token = await MsiHelper.GetToken("https://storage.azure.com/");
+                ViewData["BlobTokenStatus"] = string.IsNullOrEmpty(token) ? "Failed to get token for storage.azure.com/" : "Got an ARM token for storage.azure.com/";
+                ViewData["DecodedToken"] = JwtHelper.DecodeToJson(token);
 
 
-                if (string.IsNullOrEmpty(storageToken))
+                if (string.IsNullOrEmpty(token))
                 {
                     ViewData["Containers"] = "Get StorageToken was unsuccessful";
                 }
                 else
                 {
-                    ViewData["ContainersXML"] = AzureStorageHelper.GetAllContainerNamesXml(storageToken, storage_account);
+                    ViewData["ContainersXML"] = AzureStorageHelper.GetAllContainerNamesXml(token, storage_account);
                 }
 
             }

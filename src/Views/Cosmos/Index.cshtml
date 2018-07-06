@@ -5,15 +5,20 @@
 <h3>Enable your MSI to access Cosmos DB Keys.</h3>
 <p>Give MSI <em>Cosmos DB Account Reader Role</em> in the Cosmos DB Resource Group</p>
 <p>NOTE: Permission must be granted on the Resource Group, and NOT on the Cosmos BD Account itself.</p>
-
+<p>NOTE2: Actually I have no idea where to grant the permission? </p>
 
 
 <h3>Cosmos DB Resources (Using ARM Token):</h3>
 
+<h3>Data</h3>
+<pre class="prettyprint lang-js">
+    @ViewData["AllCosmosJson"]
+</pre>
+
 <ul>
 @if (ViewData["AllCosmos"] != null)
     {
-        var cosmosList = (List<string>)ViewData["AllCosmos"];
+        var cosmosList = (List<string>)ViewData["AllCosmosNames"];
         foreach (var i in cosmosList)
         { 
         <li>@i</li>

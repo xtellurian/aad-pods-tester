@@ -7,6 +7,7 @@ using Microsoft.Azure.Management.ResourceManager;
 using Microsoft.Azure.Management.ResourceManager.Models;
 using Microsoft.Rest;
 using Microsoft.Rest.Azure.OData;
+using Newtonsoft.Json;
 
 namespace src.Controllers
 {
@@ -20,7 +21,8 @@ namespace src.Controllers
             var ARMtoken = await MsiHelper.GetToken("https://management.azure.com/");
 
             var allCosmos = await GetAllCosmosDb(ARMtoken);
-            ViewData["AllCosmos"] = new List<string>(allCosmos.Select(c=>c.Name));
+            ViewData["AllCosmosNames"] = new List<string>(allCosmos.Select(c=>c.Name));
+            ViewData["AllCosmosJson"] = PrettyStringHelper.JsonPrettify(JsonConvert.SerializeObject(allCosmos));
             // replace if in query, otherwise use defaults
             if (HttpContext.Request.Query.ContainsKey("rg"))
             {
@@ -42,7 +44,7 @@ namespace src.Controllers
 
             var rmClient =
                 new ResourceManagementClient(serviceCreds) { SubscriptionId = subscription_id };
-
+            
             var res = await rmClient.Resources.ListAsync(new ODataQuery<GenericResourceFilter>(f => f.ResourceType == "Microsoft.DocumentDb/databaseAccounts"));
             
             return res.ToList();

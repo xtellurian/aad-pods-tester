@@ -28,7 +28,7 @@ namespace src.Controllers
             {
                 var ARMtoken = await MsiHelper.GetToken("https://management.azure.com/");
                 ViewData["ARMTokenStatus"] = string.IsNullOrEmpty(ARMtoken) ? "Failed to get token for management.azure.com/" : "Got an ARM token for management.azure.com/";
-
+                
                 var storageToken = await MsiHelper.GetToken("https://storage.azure.com/");
                 ViewData["BlobTokenStatus"] = string.IsNullOrEmpty(storageToken) ?  "Failed to get token for storage.azure.com/" : "Got an ARM token for storage.azure.com/";
                 
