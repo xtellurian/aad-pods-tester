@@ -21,7 +21,7 @@ namespace src.Controllers
             var ARMtoken = await MsiHelper.GetToken("https://management.azure.com/");
 
             var allCosmos = await GetAllCosmosDb(ARMtoken);
-            ViewData["AllCosmosNames"] = new List<string>(allCosmos.Select(c=>c.Name));
+            ViewData["AllCosmosNames"] = new List<string>(allCosmos.Select(c => c.Name));
             ViewData["AllCosmosJson"] = PrettyStringHelper.JsonPrettify(JsonConvert.SerializeObject(allCosmos));
             // replace if in query, otherwise use defaults
             if (HttpContext.Request.Query.ContainsKey("rg"))
@@ -35,7 +35,12 @@ namespace src.Controllers
             ViewData["CosmosName"] = cosmos_name;
             var cosmosKeys = await CosmosHelper.GetKeysAsync(ARMtoken, subscription_id, cosmos_rg, cosmos_name);
             ViewData["NumKeys"] = cosmosKeys?.Keys?.Count.ToString() ?? "Failed to get keys for " + cosmos_name + " in rg " + cosmos_rg;
-            ViewData["KeyNamesJson"] = PrettyStringHelper.JsonPrettify(JsonConvert.SerializeObject(cosmosKeys.Keys));
+            if (cosmosKeys?.Keys != null)
+            {
+                ViewData["KeyNamesJson"] = PrettyStringHelper.JsonPrettify(JsonConvert.SerializeObject(cosmosKeys.Keys));
+            } else{
+                ViewData["KeyNamesJson"] = "[]";
+            }
             return View();
         }
         private async Task<IList<GenericResource>> GetAllCosmosDb(string token)
@@ -44,9 +49,9 @@ namespace src.Controllers
 
             var rmClient =
                 new ResourceManagementClient(serviceCreds) { SubscriptionId = subscription_id };
-            
+
             var res = await rmClient.Resources.ListAsync(new ODataQuery<GenericResourceFilter>(f => f.ResourceType == "Microsoft.DocumentDb/databaseAccounts"));
-            
+
             return res.ToList();
         }
     }
