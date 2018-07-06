@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Cosmos DB";
+}
+
+<h3>Enable your MSI to access Cosmos DB Keys.</h3>
+<p>Give MSI <em>Cosmos DB Account Reader Role</em> in the Cosmos DB Resource Group</p>
+<p>NOTE: Permission must be granted on the Resource Group, and NOT on the Cosmos BD Account itself.</p>
+
+
+
+<h3>Cosmos DB Resources (Using ARM Token):</h3>
+
+<ul>
+@if (ViewData["AllCosmos"] != null)
+    {
+        var cosmosList = (List<string>)ViewData["AllCosmos"];
+        foreach (var i in cosmosList)
+        { 
+        <li>@i</li>
+        }        
+    }
+</ul>
+
+<br/>
+
+<h3>Use the ARM Token to get keys to a Cosmos DB account</h3>
+<p>Number of Cosmos Keys</p>
+<p>@ViewData["NumKeys"]</p>
+
+

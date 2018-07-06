@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Management";
+}
+<h2>@ViewData["Title"]</h2>
+
+<h3>Token Status</h3>
+<p>ARM Token Status: @ViewData["ARMTokenStatus"]</p>
+
+
+<h3>Using the ARM Token</h3>
+<p>Use the ARM Token to get list of Resource Groups in Subsciption</p>
+<p>Subscription Id: @ViewData["SubscriptionId"]</p>
+<h4>Resource Groups:</h4>
+<ul>
+@if (ViewData["ResourceGroups"] != null)
+    {
+        var rgList = (List<string>)ViewData["ResourceGroups"];
+        foreach (var i in rgList)
+        { 
+        <li>@i</li>
+        }        
+    }
+</ul>
+
+<br/>
+
+<h4>Providers:</h4>
+<ul>
+@if (ViewData["Providers"] != null)
+    {
+        var prov = (List<string>)ViewData["Providers"];
+        foreach (var i in prov)
+        { 
+        <li>@i</li>
+        }        
+    }
+</ul>
+
+<h4>Resources:</h4>
+<ul>
+@if (ViewData["Resources"] != null)
+    {
+        var res = (List<string>)ViewData["Resources"];
+        foreach (var i in res)
+        { 
+        <li>@i</li>
+        }        
+    }
+</ul>

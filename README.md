@@ -26,3 +26,14 @@ Deploy the tester app:
 
 `kubectl apply -f msi/srcid/tester.deploy.yaml`
 
+## TODO
+
+Make page for testing each of the following:
+
+- Azure Resource Manager 	https://management.azure.com/ 	
+- Azure Key Vault 	https://vault.azure.net 	
+- Azure Data Lake 	https://datalake.azure.net/ 	
+- Azure SQL 	https://database.windows.net/ 	
+- Azure Event Hubs 	https://eventhubs.azure.net 	
+- Azure Service Bus 	https://servicebus.azure.net 	
+- Azure Storage 	https://storage.azure.com/ 

@@ -15,6 +15,7 @@ namespace src.Controllers
         string cosmos_name = Environment.GetEnvironmentVariable("COSMOS_NAME");
         string subscription_id = Environment.GetEnvironmentVariable("SUBSCRIPTION_ID");
         string storage_account = Environment.GetEnvironmentVariable("STORAGE_ACCOUNT");
+        
         public IActionResult Index()
         {
             return View();
@@ -25,10 +26,10 @@ namespace src.Controllers
             ViewData["SubscriptionId"] = subscription_id;
             try
             {
-                var ARMtoken = MsiHelper.GetToken("https://management.azure.com/");
+                var ARMtoken = await MsiHelper.GetToken("https://management.azure.com/");
                 ViewData["ARMTokenStatus"] = string.IsNullOrEmpty(ARMtoken) ? "Failed to get token for management.azure.com/" : "Got an ARM token for management.azure.com/";
 
-                var storageToken = MsiHelper.GetToken("https://storage.azure.com/");
+                var storageToken = await MsiHelper.GetToken("https://storage.azure.com/");
                 ViewData["BlobTokenStatus"] = string.IsNullOrEmpty(storageToken) ?  "Failed to get token for storage.azure.com/" : "Got an ARM token for storage.azure.com/";
                 
                 if (string.IsNullOrEmpty(ARMtoken))
@@ -39,7 +40,7 @@ namespace src.Controllers
                 {
                     // let's get this from input
                     //var cosmosKey = CosmosHelper.GetKeys(ARMtoken, "e39a92b5-b9a4-43d1-97a3-c31c819a583a", "istiotest", "msitester-table");
-                    var cosmosKey = CosmosHelper.GetKeys(ARMtoken, subscription_id, cosmos_rg, cosmos_name);
+                    var cosmosKey = await CosmosHelper.GetKeysAsync(ARMtoken, subscription_id, cosmos_rg, cosmos_name);
                     ViewData["NumKeys"] = cosmosKey?.Keys?.Count.ToString() ?? "Failed to get keys for " + cosmos_name + " in rg " + cosmos_rg;
                 }
                 if (string.IsNullOrEmpty(storageToken))
